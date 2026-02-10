@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teacher Portal</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <div>
+          <p class="eyebrow">Teacher Portal</p>
+          <h1>Lesson Builder &amp; AI Assistant</h1>
+          <p class="subtitle">
+            Create, edit, and manage lessons. Generate new lessons with secure AI,
+            file-based RAG context, web search, and citations.
+          </p>
+        </div>
+        <div class="status-card">
+          <h2>AI Status</h2>
+          <p>
+            This portal calls the OpenAI API securely from the server. Your API key
+            stays on the backend and never reaches the browser.
+          </p>
+        </div>
+      </header>
+
+      <main>
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Create or edit a lesson</h2>
+            <p>Use the AI generator or enter your own content.</p>
+          </div>
+
+          <form id="lesson-form">
+            <div class="grid">
+              <label>
+                Title
+                <input type="text" name="title" placeholder="Lesson title" />
+              </label>
+              <label>
+                Grade level
+                <input type="text" name="gradeLevel" placeholder="Grade / level" />
+              </label>
+              <label>
+                Duration
+                <input type="text" name="duration" placeholder="45 minutes" />
+              </label>
+            </div>
+
+            <label>
+              Learning objectives
+              <textarea
+                name="objectives"
+                placeholder="What should students learn?"
+                rows="3"
+              ></textarea>
+            </label>
+
+            <label>
+              Lesson content
+              <textarea
+                name="content"
+                placeholder="Write or generate the lesson plan."
+                rows="10"
+              ></textarea>
+            </label>
+
+            <div class="grid">
+              <label>
+                AI image search prompt
+                <input
+                  type="text"
+                  name="imageSearchQuery"
+                  placeholder="e.g. photosynthesis diagram"
+                />
+              </label>
+              <label>
+                YouTube video URL
+                <input type="text" name="youtubeUrl" placeholder="https://youtu.be/..." />
+              </label>
+            </div>
+
+            <label class="upload">
+              Upload files for RAG context
+              <input type="file" name="files" multiple />
+            </label>
+
+            <label class="toggle">
+              <input type="checkbox" name="includeWebSearch" />
+              Allow AI web search for citations
+            </label>
+
+            <div class="actions">
+              <button class="primary" type="button" id="generate-ai">
+                Generate with AI
+              </button>
+              <button type="submit" id="save-lesson">Save lesson</button>
+              <button type="button" class="ghost" id="reset-form">Reset</button>
+            </div>
+
+            <div id="ai-feedback" class="feedback" role="status" aria-live="polite"></div>
+          </form>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Lesson library</h2>
+            <p>Edit, configure, or delete saved lessons.</p>
+          </div>
+          <div id="lesson-list" class="lesson-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <template id="lesson-card-template">
+      <article class="lesson-card">
+        <div class="lesson-card__header">
+          <div>
+            <h3 data-field="title"></h3>
+            <p class="meta" data-field="meta"></p>
+          </div>
+          <div class="lesson-card__actions">
+            <button class="ghost" data-action="edit">Edit</button>
+            <button class="danger" data-action="delete">Delete</button>
+          </div>
+        </div>
+        <div class="lesson-card__body">
+          <p data-field="objectives"></p>
+          <div class="resources">
+            <strong>Resources:</strong>
+            <ul data-field="resources"></ul>
+          </div>
+          <details>
+            <summary>Lesson content</summary>
+            <pre data-field="content"></pre>
+          </details>
+        </div>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
